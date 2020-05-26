@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dengsgo/math-engine/engine"
+	"github.com/ebayboy/math-engine/engine"
 )
 
 func main() {
