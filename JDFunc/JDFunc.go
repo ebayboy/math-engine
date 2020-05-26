@@ -16,18 +16,12 @@ import (
 /* 扩展数据计算（不能处理字符串过滤以及计算）
 TODO:
 - 支持大于、小于、等于  OK
-- 支持字符串查找以及正则匹配 OK
+- 支持字符串查找以及正则匹配 ？？
 
 */
 
-/*
-	Usage:
-	1. JDFunc.contain("hello wordsfda asdfadfaf  18911438143 asdfasf", "18911438143")
-		return true
-	2. JDFunc.regex("hello wordsfda asdfadfaf  18911438143 asdfasf", "0?(13|14|15|17|18|19)[0-9]{9}")
-*/
 type JDFunc struct {
-	regNames []string
+	regNames []string //registe func names
 }
 
 func NewJDFunc() *JDFunc {
