@@ -1,6 +1,6 @@
 /**
  * @Author: fanpengfei
- * @Description:
+ * @Description: 支持数据计算， 不能支持字符串的匹配和查找
  * @File:  JDFunc
  * @Version: 1.0.0
  * @Date: 2020/5/26 14:29
@@ -17,7 +17,7 @@ import (
 TODO:
 - 支持大于、小于、等于  OK
 - 支持字符串查找以及正则匹配 ？？
-
+- 拆出vGID_vSNM_vIP_count_404_5m/vGID_vSNM_vIP_count_5m > 0.5中的变量拆出 vGID_vSNM_vIP_count_404_5m 和 vGID_vSNM_vIP_count_5m
 */
 
 type JDFunc struct {
@@ -49,11 +49,6 @@ func (e JDFunc) registe(name string, argc int, fun func(...engine.ExprAST) float
 	fmt.Println("regNames:", e.regNames)
 
 	return nil
-}
-
-func double(expr ...engine.ExprAST) float64 {
-	fmt.Printf("expr[0]:%v\n", expr[0])
-	return engine.ExprASTResult(expr[0]) * 2
 }
 
 /* > */
@@ -125,11 +120,6 @@ func init() {
 
 func (e JDFunc) RegisteAllJDFunc() error {
 	var err error = nil
-
-	err = e.registe("double", 1, double)
-	if err != nil {
-		return err
-	}
 
 	err = e.registe("GT", 2, GT)
 	if err != nil {

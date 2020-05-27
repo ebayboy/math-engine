@@ -11,6 +11,7 @@ package main
 import (
 	"fmt"
 	"github.com/ebayboy/math-engine/JDFunc"
+	"github.com/ebayboy/math-engine/JDParse"
 	"github.com/ebayboy/math-engine/engine"
 )
 
@@ -19,12 +20,6 @@ func main() {
 	jf.ShowNames()
 	var err error
 	var r float64
-	r, err = engine.ParseAndExec("double(6) + 2")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("double(6) + 2 = %f\n", r)
-
 	var exp string
 
 	//简单大于、小于、等于计算测试
@@ -86,4 +81,39 @@ func main() {
 		panic(err)
 	}
 	fmt.Printf("%v = %d\n", exp, int(r))
+
+	//waf demo: vGID_vSNM_vIP_count_404_5m/vGID_vSNM_vIP_count_5m > 0.5
+	//TODO: 拆出vGID_vSNM_vIP_count_404_5m/vGID_vSNM_vIP_count_5m > 0.5中的变量拆出 vGID_vSNM_vIP_count_404_5m 和 vGID_vSNM_vIP_count_5m
+	fmt.Println("waf demo test:")
+	vGID_vSNM_vIP_count_404_5m := 100
+	vGID_vSNM_vIP_count_5m := 199
+
+	//tmp := "vGID_vSNM_vIP_count_404_5m/vGID_vSNM_vIP_count_5m > 0.5"
+
+	exp = fmt.Sprintf("GT(%v/%v, 0.5)", vGID_vSNM_vIP_count_404_5m, vGID_vSNM_vIP_count_5m)
+	fmt.Println("exp:", exp)
+	r, err = engine.ParseAndExec(exp)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%v = %d\n", exp, int(r))
+
+	fmt.Println("test JDParse")
+	jdParser := JDParse.NewJDParse("GT(vGID_vSNM_vIP_count_404_5m/vGID_vSNM_vIP_count_5m,0.5)")
+	fmt.Println("before parse")
+	jdParser.Show()
+
+	jdParser.Parse()
+	fmt.Println("after parse")
+	jdParser.Show()
+
+	jdParser.Compose()
+	fmt.Println("after compose")
+	jdParser.Show()
+
+	r, err = engine.ParseAndExec(jdParser.ExpParse)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("%v = %d\n", jdParser.ExpParse, int(r))
 }
